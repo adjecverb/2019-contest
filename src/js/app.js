@@ -259,35 +259,35 @@ var Game = {
         if(this.nowJson.map[(player.data('y')+stepY) * Math.sqrt(this.nowJson.map.length) + (player.data('x') + stepX)] != 1){//如果不是墙，走一步
             player.data('x',player.data('x')+stepX);
             player.data('y',player.data('y')+stepY);
-            player.css('left',player.data('x')*CONFIG.ceilSize);
-            player.css('top',player.data('y')*CONFIG.ceilSize);
+            player.css('left',player.data('x')*this.ceilSize);
+            player.css('top',player.data('y')*this.ceilSize);
             $('.box').each($.proxy(function(i,elem){
                 //如果前面是箱子了，箱子前面不是墙，则推箱子
                 if(this.pz(player,$(elem)) && this.nowJson.map[(player.data('y')+stepY) * Math.sqrt(this.nowJson.map.length) + (player.data('x') + stepX)] !=1){
-                    $(elem).css('left',(player.data('x')+stepX)*CONFIG.ceilSize);
-                    $(elem).css('top',(player.data('y')+stepY)*CONFIG.ceilSize);
+                    $(elem).css('left',(player.data('x')+stepX)*this.ceilSize);
+                    $(elem).css('top',(player.data('y')+stepY)*this.ceilSize);
                     this.boxPosition[i].x += stepX ? stepX:0;
                     this.boxPosition[i].y += stepY ? stepY:0;
                     boxMoveId = parseInt($(elem)[0].id);
                     $('.box').each($.proxy(function(j,elem2){
                     //如果箱子前面还是箱子，那么推不动，人不能走这一步，箱子也回归原位
                         if(this.pz( $(elem) , $(elem2) ) && elem != elem2){
-                            $(elem).css('left',player.data('x')*CONFIG.ceilSize);
-                            $(elem).css('top',player.data('y')*CONFIG.ceilSize);
+                            $(elem).css('left',player.data('x')*this.ceilSize);
+                            $(elem).css('top',player.data('y')*this.ceilSize);
                             this.boxPosition[i].x -= stepX ? stepX:0;//退回
                             this.boxPosition[i].y -= stepY ? stepY:0;
                             boxMoveId = -1;
                             player.data('x',player.data('x') - stepX);
                             player.data('y',player.data('y') - stepY);
-                            player.css('left',player.data('x')*CONFIG.ceilSize);
-                            player.css('top',player.data('y')*CONFIG.ceilSize);
+                            player.css('left',player.data('x')*this.ceilSize);
+                            player.css('top',player.data('y')*this.ceilSize);
                         }
                     },this));
                 }else if(this.pz(player,$(elem))){//如果这个方向有箱子，箱子前面是墙，则不能走这一步，要退回去
                     player.data('x',player.data('x') - stepX);
                     player.data('y',player.data('y') - stepY);
-                    player.css('left',player.data('x')*CONFIG.ceilSize);
-                    player.css('top',player.data('y')*CONFIG.ceilSize);
+                    player.css('left',player.data('x')*this.ceilSize);
+                    player.css('top',player.data('y')*this.ceilSize);
                 }
             },this));
         }
@@ -386,20 +386,22 @@ var Game = {
         }
         else{
             var tmp = [1,-1];
+            var obj1Position = (this.boxPosition[obj1].y)*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj1].x);
+            var obj2Position = (this.boxPosition[obj2].y)*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj2].x);
             if(dcn % 2 === 0){//箱子上下相邻
-                for(var i = 0;i < 2;i++){
-                    var obj1Position = (this.boxPosition[obj1].y)*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj1].x+tmp[i]);
-                    var obj2Position = (this.boxPosition[obj2].y)*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj2].x+tmp[i]);
-                    if((this.nowJson.map[obj1Position] === 1) && (this.nowJson.map[obj2Position] === 1)){
+                for(var i = 0;i < 2;i++){//当前位置不是目标且两个箱子相邻的方向的临边贴墙
+                    var obj1NextPosition = (this.boxPosition[obj1].y)*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj1].x+tmp[i]);
+                    var obj2NextPosition = (this.boxPosition[obj2].y)*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj2].x+tmp[i]);
+                    if((this.nowJson.map[obj1NextPosition] === 1) && (this.nowJson.map[obj2NextPosition] === 1) && (this.nowJson.map[obj1Position] !== 3 && this.nowJson.map[obj2Position] !== 3)){
                         return 1;
                     }
                 }
             }
             else{//箱子左右相邻
                 for(var i = 0;i < 2;i++){
-                    var obj1Position = (this.boxPosition[obj1].y+tmp[i])*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj1].x);
-                    var obj2Position = (this.boxPosition[obj2].y+tmp[i])*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj2].x);
-                    if((this.nowJson.map[obj1Position] === 1) && (this.nowJson.map[obj2Position] === 1)){
+                    var obj1NextPosition = (this.boxPosition[obj1].y+tmp[i])*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj1].x);
+                    var obj2NextPosition = (this.boxPosition[obj2].y+tmp[i])*Math.sqrt(this.nowJson.map.length)+(this.boxPosition[obj2].x);
+                    if((this.nowJson.map[obj1Position] === 1) && (this.nowJson.map[obj2Position] === 1) && (this.nowJson.map[obj1Position] !== 3 && this.nowJson.map[obj2Position] !== 3)){
                         return 1;
                     }
                 }
