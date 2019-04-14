@@ -11,12 +11,12 @@ var Game = {
         this.rechose = $("#rechose");
         this.fail = false;
         this.isPass = new Array(CONFIG.totalLevel);//存储过了那一关
-        if(isMobile()){
+        if(isMobile()){//如果是移动端
             this.ceilSize = CONFIG.ceilSize;
             $("#game").children().css("width",this.ceilSize+"px");
             $("#game").children().css("height",this.ceilSize+"px");
         }
-        else{
+        else{//电脑端
             this.ceilSize = 50;
         }
         this.choseDifficulty();
@@ -36,6 +36,7 @@ var Game = {
         this.bindLevel();
     },
     bindLevel:function(){//绑定选择关卡的按钮
+    //分移动端和电脑端绑定事件
         if(isMobile()){
             $("#chose").on("tap",$.proxy(function(e){
                 if(e.target.nodeName === "BUTTON"){
@@ -72,6 +73,7 @@ var Game = {
         this.bindDifficulty();
     },
     bindDifficulty:function(){//绑定选择难度的关卡
+    //分移动端和电脑端绑定事件
         if(isMobile()){
             $("#chose").on("tap",$.proxy(function(e){
                 if(e.target.nodeName === "BUTTON"){
@@ -116,6 +118,7 @@ var Game = {
         this.createPlayer();
     },
     bindRechose:function(){//重新选择关卡和难度
+        //分移动端和电脑端绑定事件
         if(isMobile()){
             $("#rechose").on("tap",$.proxy(function(e){
                 if(e.target.className === "rechoseDifficulty"){
@@ -167,55 +170,42 @@ var Game = {
         this.bindPlayer(player);
     },
     bindPlayer:function(player){
+    //分移动端和电脑端绑定事件
         if(isMobile()){
-            $(document).on("swipeleft",$.proxy(function(e){
-                if(!this.fail){
-                    player.css('background','url(./img/left.png)');//切换玩家朝向
-                    player.css('background-size','100% 100%');
-                    this.runPlayer(player,{x:-1});
-                }
-            },this));
-            $(document).on("swipeleft",$.proxy(function(e){
-                if(!this.fail){
-                    player.css('background','url(./img/left.png)');//切换玩家朝向
-                    player.css('background-size','100% 100%');
-                    this.runPlayer(player,{x:-1});
-                }
-            },this));
-            $("#mobile").show();
+            $("#mobile").show();//打开移动端控制面板
             $("#mobile").on("tap",$.proxy(function(e){
                 if(!this.fail){
                     switch($(e.target)[0].id){
                         case "left": //左
-                        if(!this.fail){
-                            player.css('background','url(./img/left.png)');//切换玩家朝向
-                            player.css('background-size','100% 100%');
-                            this.runPlayer(player,{x:-1});
+                            if(!this.fail){
+                                player.css('background','url(./img/left.png)');//切换玩家朝向
+                                player.css('background-size','100% 100%');
+                                this.runPlayer(player,{x:-1});
+                            }
+                            break;
+                        case "up"://上
+                            if(!this.fail){
+                                player.css('background','url(./img/top.png)');
+                                player.css('background-size','100% 100%');
+                                this.runPlayer(player,{y:-1});
+                            }
+                            break;
+                        case "right"://右
+                            if(!this.fail){
+                                player.css('background','url(./img/right.png)');
+                                player.css('background-size','100% 100%');
+                                this.runPlayer(player,{x:1});
+                            }
+                            break;
+                        case "down"://下
+                            if(!this.fail){
+                                player.css('background','url(./img/down.png)');
+                                player.css('background-size','100% 100%');
+                                this.runPlayer(player,{y:1});
+                            }
+                            break;
                         }
-                        break;
-                    case "up"://上
-                        if(!this.fail){
-                            player.css('background','url(./img/top.png)');
-                            player.css('background-size','100% 100%');
-                            this.runPlayer(player,{y:-1});
-                        }
-                        break;
-                    case "right"://右
-                        if(!this.fail){
-                            player.css('background','url(./img/right.png)');
-                            player.css('background-size','100% 100%');
-                            this.runPlayer(player,{x:1});
-                        }
-                        break;
-                    case "down"://下
-                        if(!this.fail){
-                            player.css('background','url(./img/down.png)');
-                            player.css('background-size','100% 100%');
-                            this.runPlayer(player,{y:1});
-                        }
-                        break;
                     }
-                }
             },this));
         }
         else{
@@ -319,7 +309,7 @@ var Game = {
             $('.box').each($.proxy(function(j,elem2){
                 if(this.pz( $(elem) , $(elem2) )){
                     num++;
-                    $(elem2).css("background","url(./img/target.png)");
+                    $(elem2).css("background","url(./img/target.png)");//箱子到达目的地，切换颜色做提示
                     $(elem2).css("background-size","100% 100%");
                 }
             },this));
@@ -350,7 +340,7 @@ var Game = {
         document.title = "很遗憾";
         this.fail = true;
         $("#fail").show();
-        $("#player").css("background","url(./img/die.png)");
+        $("#player").css("background","url(./img/die.png)");//本关失败，切换颜色做提示
         $("#player").css("background-size","100% 100%");
     },
     nextTo:function(obj1,obj2,dcn){//物体1，物体2，方向
@@ -414,7 +404,7 @@ var Game = {
     },
     winAll:function(){
         num = 0;
-        for(var i = 0;i < CONFIG.totalLevel;i++){
+        for(var i = 0;i < CONFIG.totalLevel;i++){//如果每一关都通过了
             if(this.isPass[i] !== 1){
                 this.choseLevel();
             }
