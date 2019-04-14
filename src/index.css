@@ -1,0 +1,93 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#chose{
+    position: relative;
+    width:500px;
+    padding: 5px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#rechose{
+    text-align: center;
+}
+
+#fail{
+    position: relative;
+    width:300px;
+    margin:20px auto;
+    text-align: center;
+}
+
+#mobile{
+    position: relative;
+    width:170px;
+    margin:20px auto;
+    text-align: center;
+    display: flex;
+}
+
+#mobile > *{
+    margin:0 !important;
+    flex:1;
+}
+
+.second-line{
+    width:50px !important;
+    display: inline-block !important;
+}
+
+button{
+    margin:5px;
+}
+
+#game{
+    position: relative;
+    margin: 20px auto;
+}
+
+#game > *{
+    width: 20px;
+    height: 20px;
+}
+
+#player{
+
+    background: url(./img/top.png);
+    background-size:100% 100%;
+    position: absolute;
+}
+
+.box{
+    background: url(./img/box.png);
+    background-size:100% 100%;
+    position: absolute;
+}
+
+.wall{
+    background: url(./img/wall.png);
+    background-size:100% 100%;
+    background-size:100% 100%;
+    float: left;
+}
+
+.outside{
+    float: left;
+}
+
+.target{
+    width: 30px;
+    height: 30px;
+    background: url(./img/point.png);
+    background-size:100% 100%;
+    float: left;
+}
+
+.floor{
+    background: url(./img/floor.png);
+    background-size:100% 100%;
+    float: left;
+}
