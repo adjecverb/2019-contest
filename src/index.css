@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+h1{
+    width:100% !important;
+    height:100% !important;
+}
+
 #chose{
     position: relative;
     width:500px;

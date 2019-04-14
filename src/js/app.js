@@ -22,6 +22,7 @@ var Game = {
         this.choseDifficulty();
     },
     choseLevel:function(){//选择关卡
+        document.title = "推箱子——选择关卡";
         this.father.empty();
         this.choseDiv.empty();
         this.rechose.empty();
@@ -57,6 +58,7 @@ var Game = {
         }
     },
     choseDifficulty:function(){//选择难度
+        document.title = "推箱子——选择难度";
         this.father.empty();
         this.choseDiv.empty();
         this.rechose.empty();
@@ -345,6 +347,7 @@ var Game = {
         }
     },
     failPage:function(){
+        document.title = "很遗憾";
         this.fail = true;
         $("#fail").show();
         $("#player").css("background","url(./img/die.png)");
@@ -423,6 +426,7 @@ var Game = {
             this.winPage();
     },
     winPage:function(){
+        document.title = "恭喜通关";
         this.father.empty();
         this.choseDiv.empty();
         this.rechose.empty();
